@@ -1,0 +1,155 @@
+EVA1_5_PRUEBA_TABLAS
+
+MySQL Shell 8.0.22
+
+Copyright (c) 2016, 2020, Oracle and/or its affiliates.
+Oracle is a registered trademark of Oracle Corporation and/or its affiliates.
+Other names may be trademarks of their respective owners.
+
+Type '\help' or '\?' for help; '\quit' to exit.
+ MySQL  JS > \sql
+Switching to SQL mode... Commands end with ;
+ MySQL  SQL > \connect --mc root@localhost
+Creating a Classic session to 'root@localhost'
+Please provide the password for 'root@localhost': ****
+Save password for 'root@localhost'? [Y]es/[N]o/Ne[v]er (default No): No
+Fetching schema names for autocompletion... Press ^C to stop.
+Your MySQL connection id is 10
+Server version: 8.0.22 MySQL Community Server - GPL
+No default schema selected; type \use <schema> to set one.
+ MySQL  localhost:3306 ssl  SQL > \use tbd_e1
+Default schema set to `tbd_e1`.
+Fetching table and column names from `tbd_e1` for auto-completion... Press ^C to stop.
+ MySQL  localhost:3306 ssl  tbd_e1  SQL > show tables
+                                       -> ;
++------------------+
+| Tables_in_tbd_e1 |
++------------------+
+| primer_tabla     |
+| student          |
++------------------+
+2 rows in set (0.0031 sec)
+ MySQL  localhost:3306 ssl  tbd_e1  SQL > show table student;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'student' at line 1
+ MySQL  localhost:3306 ssl  tbd_e1  SQL > desc student;
++------------+--------------+------+-----+---------+-------+
+| Field      | Type         | Null | Key | Default | Extra |
++------------+--------------+------+-----+---------+-------+
+| name       | varchar(50)  | YES  |     | NULL    |       |
+| SSN        | varchar(11)  | YES  |     | NULL    |       |
+| home_phone | varchar(8)   | YES  |     | NULL    |       |
+| address    | varchar(100) | YES  |     | NULL    |       |
+| age        | int          | YES  |     | NULL    |       |
++------------+--------------+------+-----+---------+-------+
+5 rows in set (0.0025 sec)
+ MySQL  localhost:3306 ssl  tbd_e1  SQL > insert into student
+                                       -> value('Juan Pérez','00-11'
+                                       -> '001122','av donkinkon 2301',
+                                       -> 50);
+ERROR: 1136 (21S01): Column count doesn't match value count at row 1
+ MySQL  localhost:3306 ssl  tbd_e1  SQL > insert into student
+                                       -> value('Juan Perez', '00-11',
+                                       -> '001122','av donkinkon 2301',
+                                       -> 50);
+Query OK, 1 row affected (0.0176 sec)
+ MySQL  localhost:3306 ssl  tbd_e1  SQL > insert into student
+                                       -> values('x','x','x','x',12),
+                                       -> ('y','y','y','y',3),
+                                       -> ('z','z','z','z',17);
+Query OK, 3 rows affected (0.0043 sec)
+
+Records: 3  Duplicates: 0  Warnings: 0
+ MySQL  localhost:3306 ssl  tbd_e1  SQL > insert into student(name)
+                                       -> value('pinocho');
+Query OK, 1 row affected (0.0047 sec)
+ MySQL  localhost:3306 ssl  tbd_e1  SQL > insert into student(name)
+                                       -> values('chowder'),('DJ');
+Query OK, 2 rows affected (0.0044 sec)
+
+Records: 2  Duplicates: 0  Warnings: 0
+ MySQL  localhost:3306 ssl  tbd_e1  SQL > select * from student;
++------------+-------+------------+-------------------+------+
+| name       | SSN   | home_phone | address           | age  |
++------------+-------+------------+-------------------+------+
+| Juan Perez | 00-11 | 001122     | av donkinkon 2301 |   50 |
+| x          | x     | x          | x                 |   12 |
+| y          | y     | y          | y                 |    3 |
+| z          | z     | z          | z                 |   17 |
+| pinocho    | NULL  | NULL       | NULL              | NULL |
+| chowder    | NULL  | NULL       | NULL              | NULL |
+| DJ         | NULL  | NULL       | NULL              | NULL |
++------------+-------+------------+-------------------+------+
+7 rows in set (0.0058 sec)
+ MySQL  localhost:3306 ssl  tbd_e1  SQL > select name, SSN from student;
++------------+-------+
+| name       | SSN   |
++------------+-------+
+| Juan Perez | 00-11 |
+| x          | x     |
+| y          | y     |
+| z          | z     |
+| pinocho    | NULL  |
+| chowder    | NULL  |
+| DJ         | NULL  |
++------------+-------+
+7 rows in set (0.0015 sec)
+ MySQL  localhost:3306 ssl  tbd_e1  SQL > select count(*) from student;
++----------+
+| count(*) |
++----------+
+|        7 |
++----------+
+1 row in set (0.0137 sec)
+ MySQL  localhost:3306 ssl  tbd_e1  SQL > select * from student limit 2;
++------------+-------+------------+-------------------+-----+
+| name       | SSN   | home_phone | address           | age |
++------------+-------+------------+-------------------+-----+
+| Juan Perez | 00-11 | 001122     | av donkinkon 2301 |  50 |
+| x          | x     | x          | x                 |  12 |
++------------+-------+------------+-------------------+-----+
+2 rows in set (0.0010 sec)
+ MySQL  localhost:3306 ssl  tbd_e1  SQL > create table automovil(
+                                       -> marca varchar(50),
+                                       -> modelo varchar(50),
+                                       -> fecha_salida int,
+                                       -> precio decimal(12,2),
+                                       -> vin varchar(50),
+                                       -> color varchar(20));
+Query OK, 0 rows affected (0.1096 sec)
+ MySQL  localhost:3306 ssl  tbd_e1  SQL > show tables;
++------------------+
+| Tables_in_tbd_e1 |
++------------------+
+| automovil        |
+| primer_tabla     |
+| student          |
++------------------+
+3 rows in set (0.0060 sec)
+ MySQL  localhost:3306 ssl  tbd_e1  SQL > desc tables
+                                       -> ;
+ERROR: 1146 (42S02): Table 'tbd_e1.tables' doesn't exist
+ MySQL  localhost:3306 ssl  tbd_e1  SQL > desc automovil;
++--------------+---------------+------+-----+---------+-------+
+| Field        | Type          | Null | Key | Default | Extra |
++--------------+---------------+------+-----+---------+-------+
+| marca        | varchar(50)   | YES  |     | NULL    |       |
+| modelo       | varchar(50)   | YES  |     | NULL    |       |
+| fecha_salida | int           | YES  |     | NULL    |       |
+| precio       | decimal(12,2) | YES  |     | NULL    |       |
+| vin          | varchar(50)   | YES  |     | NULL    |       |
+| color        | varchar(20)   | YES  |     | NULL    |       |
++--------------+---------------+------+-----+---------+-------+
+6 rows in set (0.0067 sec)
+ MySQL  localhost:3306 ssl  tbd_e1  SQL > insert into automovil
+                                       -> values('hot wheels', 'Taro kitano',
+                                       -> 2012, 200000.60, 'nkjdnjsd', 'amarillo pollo');
+Query OK, 1 row affected (0.0073 sec)
+ MySQL  localhost:3306 ssl  tbd_e1  SQL > select * from automovil
+                                       -> ;
++------------+-------------+--------------+-----------+----------+----------------+
+| marca      | modelo      | fecha_salida | precio    | vin      | color          |
++------------+-------------+--------------+-----------+----------+----------------+
+| hot wheels | Taro kitano |         2012 | 200000.60 | nkjdnjsd | amarillo pollo |
++------------+-------------+--------------+-----------+----------+----------------+
+1 row in set (0.0011 sec)
+ MySQL  localhost:3306 ssl  tbd_e1  SQL >
